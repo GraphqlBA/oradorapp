@@ -1,0 +1,19 @@
+{
+  "name": "oradorapp",
+  "version": "1.0.0",
+  "description": "App para ver oradores y eventos locales",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GraphqlBA/oradorapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GraphqlBA/oradorapp/issues"
+  },
+  "homepage": "https://github.com/GraphqlBA/oradorapp#readme"
+}
