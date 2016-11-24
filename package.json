@@ -4,6 +4,7 @@
   "description": "App para ver oradores y eventos locales",
   "main": "index.js",
   "scripts": {
+    "start": "node start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/GraphqlBA/oradorapp/issues"
   },
-  "homepage": "https://github.com/GraphqlBA/oradorapp#readme"
+  "homepage": "https://github.com/GraphqlBA/oradorapp#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "graphql": "^0.8.2",
+    "graphql-relay": "^0.4.4",
+    "graphql-server-express": "^0.4.3",
+    "graphql-tools": "^0.8.3"
+  }
 }

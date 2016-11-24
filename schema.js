@@ -52,8 +52,8 @@ type Speaker {
   lastName: String!
   nickName: String
   bio: String!
-  githubUrl: String
-  twitterUrl: String
+  githubHandle: String
+  twitterHandle: String
   homePageUrl: String
 }
 
@@ -82,17 +82,12 @@ type EventSeries {
 }
 
 type Query {
-
-}
-
-type Mutation {
-
+  speakers(after: String, first: Int, before: String, last: Int): SpeakerConnection
 }
 
 schema {
-  query: Query,
-  mutation: Mutation
+  query: Query
 }
 `;
 
-export default schema;
+module.exports = schema;
