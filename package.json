@@ -20,14 +20,18 @@
   "homepage": "https://github.com/GraphqlBA/oradorapp#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "bookshelf": "^0.10.2",
     "express": "^4.14.0",
     "graphql": "^0.8.2",
     "graphql-relay": "^0.4.4",
     "graphql-server-express": "^0.4.3",
-    "graphql-tools": "^0.8.3"
+    "graphql-tools": "^0.8.3",
+    "knex": "^0.12.6",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "casual": "^1.5.8",
     "eslint": "^3.11.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",

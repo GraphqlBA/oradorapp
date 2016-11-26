@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
 const schema = require('./schema');
-const resolvers = require('./resolvers');
+const resolvers = require('./server/resolvers');
 const { makeExecutableSchema } = require('graphql-tools');
 
 const PORT = 3000;
@@ -18,5 +18,8 @@ app.use('/graphiql', graphiqlExpress({
 }));
 
 app.listen(PORT, () => {
-  console.log(`Server started. Listening on port ${PORT}.`);
+  console.log(`
+    Server corriendo en http://localhost:${PORT}
+    GraphiQL en http://localhost:${PORT}/graphiql
+  `);
 });

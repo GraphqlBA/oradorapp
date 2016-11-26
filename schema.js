@@ -71,7 +71,7 @@ type Talk {
 # The instance of a meetup or conf. It contains the dates and location it happens.
 type Event {
   title: String!
-  start: DateTime
+  start: DateTime!
   end: DateTime
   location: String
   talks: TalkConnection
