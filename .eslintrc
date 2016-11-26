@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+   "rules": {
+     "react/prop-types": 0,
+     "max-len": 0,
+     "comma-dangle": [2, "never"]
+   },
+   "env": {
+     "es6": true,
+     "browser": true
+   },
+   "ecmaFeatures": {
+     "experimentalObjectRestSpread": true
+   },
+   "globals": {
+     "__IS_BROWSER__": true,
+     "it": true,
+     "describe": true,
+     "afterEach": true,
+     "beforeEach": true
+   }
+}
