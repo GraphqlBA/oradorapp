@@ -1,4 +1,6 @@
 const schema = `
+scalar DateTime
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -54,7 +56,7 @@ type Speaker {
   bio: String!
   githubHandle: String
   twitterHandle: String
-  homePageUrl: String
+  website: String
 }
 
 # The talk a speaker gave at an event.
@@ -69,7 +71,8 @@ type Talk {
 # The instance of a meetup or conf. It contains the dates and location it happens.
 type Event {
   title: String!
-  dates: [String!] # A list of dates in ISO-8601 format
+  start: DateTime
+  end: DateTime
   location: String
   talks: TalkConnection
   eventSeries: EventSeries!
