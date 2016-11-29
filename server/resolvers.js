@@ -8,7 +8,7 @@ const speakers = [
     bio: 'Dev. Llego patológicamente tarde a todos lados. De Rivadavia para abajo.',
     githubHandle: 'p4bloch',
     twitterHandle: 'p4bloch',
-    homePageUrl: 'https://p4bloch.me'
+    website: 'https://p4bloch.me'
   }
 ];
 
