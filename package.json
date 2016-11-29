@@ -7,7 +7,7 @@
     "start": "node start",
     "db:migrate": "knex migrate:latest --knexfile=server/knexfile.js",
     "db:seed": "knex seed:run --knexfile=server/knexfile.js",
-    "lint": "eslint *.js",
+    "lint": "eslint server start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
 
 function speakerFactory() {
@@ -10,16 +11,16 @@ function speakerFactory() {
     twitter_handle: username,
     website: casual.url,
     bio: casual.sentences(3)
-  }
+  };
 }
 
-exports.seed = function(knex, Promise) {
-  return knex('speakers').del().then(function () {
-    var promises = [];
-    [...Array(100)].forEach(function() {
+exports.seed = (knex, Promise) => (
+  knex('speakers').del().then(() => {
+    const promises = [];
+    [...Array(100)].forEach(() => {
       promises.push(knex('speakers').insert(speakerFactory()));
-    })
+    });
 
     return Promise.all(promises);
-  });
-};
+  })
+);
