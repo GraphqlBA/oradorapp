@@ -4,8 +4,8 @@ const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
 const schema = require('./schema');
 const resolvers = require('./resolvers');
 const { makeExecutableSchema } = require('graphql-tools');
-const PORT = 3000;
 
+const PORT = 3000;
 const app = express();
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -14,7 +14,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 }));
 
 app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
+  endpointURL: '/graphql'
 }));
 
 app.listen(PORT, () => {
