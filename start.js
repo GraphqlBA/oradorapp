@@ -17,6 +17,13 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
 }));
 
+if (process.env.NODE_ENV !== 'production') {
+  const devServer = require('./devServer');
+  devServer(app);
+} else {
+  app.use('/', express.static('build'));
+}
+
 app.listen(PORT, () => {
   console.log(`
     Server corriendo en http://localhost:${PORT}
