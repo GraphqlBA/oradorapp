@@ -1,0 +1,31 @@
+@import "~sass/colors";
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: inline-block;
+  }
+
+  margin: -1em;
+}
+
+.card {
+  padding: 1em;
+  width: 200px;
+  height: 200px;
+}
+
+.picture {
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  height: calc(100% - 3em);
+}
+
+.fullName {
+  padding-top: .5em;
+  color: $gray-80;
+}
