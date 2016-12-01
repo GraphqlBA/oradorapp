@@ -7,12 +7,12 @@ var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
-var rootPath = path.join(__dirname, './');
+var rootPath = path.join(__dirname, './client');
 var env = process.env.NODE_ENV || 'development';
 
 
 module.exports = {
-  devtool: env === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
+  devtool: env === 'development' ? 'eval-source-map' : 'source-map',
   devServer: {
     headers: { 'Access-Control-Allow-Origin': '*' },
     noInfo: true
@@ -22,6 +22,7 @@ module.exports = {
   },
   entry: {
     app: [
+      env === 'development' && 'react-hot-loader/patch',
       env === 'development' && 'webpack-hot-middleware/client',
       './client/index'
     ].filter(Boolean)
@@ -35,27 +36,11 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: [path.join(rootPath, 'client')],
+        include: [rootPath],
         exclude: /node_modules/,
-        loader: 'babel',
-        query: env === 'development' ?
-          {
-            'cacheDirectory': true,
-            'plugins': [
-              ['react-transform', {
-                'transforms': [{
-                  'transform': 'react-transform-hmr',
-                  'imports': ['react'],
-                  'locals': ['module']
-                }, {
-                  'transform': 'react-transform-catch-errors',
-                  'imports': ['react', 'redbox-react']
-                }]
-              }]
-            ]
-          } :
-          undefined
+        loader: 'babel'
       },
+      { test: /.*\.scss$/, loader: 'style!css?modules!postcss!sass' },
       { test: /.*\.css$/, loader: 'style!css?modules!postcss' },
       { test: /\.png/, loader: "file-loader?mimetype=image/png" },
       { test: /\.jpg/, loader: "file" },
@@ -69,7 +54,7 @@ module.exports = {
   },
   resolve: {
     root: rootPath,
-    extensions: ['', '.js', '.jsx', '.json', '.css']
+    extensions: ['', '.js', '.jsx', '.json', '.css', '.scss']
   },
   plugins: [
     // Prevent showing lint errors

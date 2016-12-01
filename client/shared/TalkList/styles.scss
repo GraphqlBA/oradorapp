@@ -1,0 +1,34 @@
+@import "~sass/colors";
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  color: $gray-80;
+  display: flex;
+}
+
+.logo {
+  background-position: center center;
+  background-size: cover;
+  flex-basis: 70px;
+  height: 70px;
+}
+
+.content {
+  margin-left: 1em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.2em;
+}
+
+.description {
+  color: $gray-50;
+}
