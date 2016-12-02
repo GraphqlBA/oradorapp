@@ -1,5 +1,14 @@
+const { makeExecutableSchema } = require('graphql-tools');
+const resolvers = require('./resolvers');
+
+const CONNECTION_ARGS = 'after: String, first: Int, before: String, last: Int';
+
 const schema = `
 scalar DateTime
+
+interface Node {
+  id: ID!
+}
 
 type PageInfo {
   hasNextPage: Boolean!
@@ -49,7 +58,8 @@ type EventSeriesConnection {
 }
 
 # A person that attends events and gives talks
-type Speaker {
+type Speaker implements Node {
+  id: ID!
   firstName: String!
   lastName: String!
   nickName: String
@@ -57,10 +67,12 @@ type Speaker {
   githubHandle: String
   twitterHandle: String
   website: String
+  talks(${CONNECTION_ARGS}): TalkConnection!
 }
 
 # The talk a speaker gave at an event.
-type Talk {
+type Talk implements Node {
+  id: ID!
   title: String!
   description: String!
   topics: [String!]
@@ -69,23 +81,27 @@ type Talk {
 }
 
 # The instance of a meetup or conf. It contains the dates and location it happens.
-type Event {
+type Event implements Node {
+  id: ID!
   title: String!
   start: DateTime!
   end: DateTime
   location: String
-  talks: TalkConnection
+  talks(${CONNECTION_ARGS}): TalkConnection!
   eventSeries: EventSeries!
 }
 
 # The entity that groups a set of events. This is basically the conf or meetup itself.
-type EventSeries {
+type EventSeries implements Node {
+  id: ID!
   title: String!
-  events: EventConnection
+  events(${CONNECTION_ARGS}): EventConnection!
 }
 
 type Query {
-  speakers(after: String, first: Int, before: String, last: Int): SpeakerConnection
+  node(id: ID!): Node
+  speakers(query: String, ${CONNECTION_ARGS}): SpeakerConnection!
+  talks(query: String, ${CONNECTION_ARGS}): TalkConnection!
 }
 
 schema {
@@ -93,4 +109,4 @@ schema {
 }
 `;
 
-module.exports = schema;
+module.exports = makeExecutableSchema({ typeDefs: schema, resolvers });
