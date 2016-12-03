@@ -1,6 +1,6 @@
-exports.up = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.createTable('talks', function(table) {
+exports.up = (knex, Promise) => (
+  Promise.all([
+    knex.schema.createTable('talks', (table) => {
       table.increments('id').primary().unsigned();
       table.string('title');
       table.string('description');
@@ -8,11 +8,11 @@ exports.up = function(knex, Promise) {
       table.dateTime('deleted_at');
       table.timestamps(true, true);
     })
-  ]);
-};
+  ])
+);
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
+exports.down = (knex, Promise) => (
+  Promise.all([
     knex.schema.dropTable('talks')
-  ]);
-};
+  ])
+);

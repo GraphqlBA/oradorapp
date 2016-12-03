@@ -22,33 +22,33 @@ class NewTalkScreen extends React.Component {
         <h1>Nueva Charla</h1>
         <form onSubmit={this.handleSubmit}>
           <p>
-            <label>
+            <label htmlFor="evento">
               Buscá un evento
-              <select />
+              <select id="evento" />
             </label>
           </p>
           <p>
-            <label>
+            <label htmlFor="orador">
               Buscá un orador
-              <select />
+              <select id="orador" />
             </label>
           </p>
           <p>
-            <label>
+            <label htmlFor="titulo">
               Agregá un titulo
-              <input type="text" />
+              <input type="text" id="titulo" />
             </label>
           </p>
           <p>
-            <label>
+            <label htmlFor="description">
               Agregá una descripción
-              <input type="text" />
+              <input type="text" id="description" />
             </label>
           </p>
           <p>
-            <label>
+            <label htmlFor="tags" >
               Agregá etiquetas para catalogar la charla (separadas por comas)
-              <input type="text" />
+              <input type="text" id="tags" />
             </label>
           </p>
           <button type="submit">Listo! Agregar charla</button>

@@ -1,6 +1,6 @@
-exports.up = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.createTable('speakers', function(table) {
+exports.up = (knex, Promise) => (
+  Promise.all([
+    knex.schema.createTable('speakers', (table) => {
       table.increments('id').primary().unsigned();
       table.string('first_name');
       table.string('last_name');
@@ -12,11 +12,11 @@ exports.up = function(knex, Promise) {
       table.dateTime('deleted_at');
       table.timestamps(true, true);
     })
-  ]);
-};
+  ])
+);
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
+exports.down = (knex, Promise) => (
+  Promise.all([
     knex.schema.dropTable('speakers')
-  ]);
-};
+  ])
+);

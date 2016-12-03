@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
@@ -24,6 +25,6 @@ app.use('*', (req, res, next) => {
     }
     res.set('content-type', 'text/html');
     res.send(result);
-    res.end();
+    return res.end();
   });
 });

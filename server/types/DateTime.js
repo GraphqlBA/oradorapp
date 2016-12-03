@@ -1,34 +1,34 @@
-import { GraphQLScalarType } from 'graphql'
-import { GraphQLError } from 'graphql/error'
-import { Kind } from 'graphql/language'
+import { GraphQLScalarType } from 'graphql';
+import { GraphQLError } from 'graphql/error';
+import { Kind } from 'graphql/language';
 
-function coerceDate (value) {
+function coerceDate(value) {
   if (!(value instanceof Date)) {
     // Is this how you raise a 'field error'?
-    throw new Error('Field error: value is not an instance of Date')
+    throw new Error('Field error: value is not an instance of Date');
   }
   if (isNaN(value.getTime())) {
-    throw new Error('Field error: value is an invalid Date')
+    throw new Error('Field error: value is an invalid Date');
   }
-  return value.toJSON()
+  return value.toJSON();
 }
 
 export default new GraphQLScalarType({
   name: 'DateTime',
-  description: "A timestamp in ISO-8601 format",
+  description: 'A timestamp in ISO-8601 format',
   serialize: coerceDate,
   parseValue: coerceDate,
-  parseLiteral (ast) {
+  parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
-      throw new GraphQLError('Query error: Can only parse strings to dates but got a: ' + ast.kind, [ast])
+      throw new GraphQLError(`Query error: Can only parse strings to dates but got a: ${ast.kind}`, [ast]);
     }
-    let result = new Date(ast.value)
+    const result = new Date(ast.value);
     if (isNaN(result.getTime())) {
-      throw new GraphQLError('Query error: Invalid date', [ast])
+      throw new GraphQLError('Query error: Invalid date', [ast]);
     }
     if (ast.value !== result.toJSON()) {
-      throw new GraphQLError('Query error: Invalid date format, only accepts: YYYY-MM-DDTHH:MM:SS.SSSZ', [ast])
+      throw new GraphQLError('Query error: Invalid date format, only accepts: YYYY-MM-DDTHH:MM:SS.SSSZ', [ast]);
     }
-    return result
+    return result;
   }
-})
+});

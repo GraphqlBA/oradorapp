@@ -7,6 +7,7 @@ const app = express();
 app.use(graphqlServer);
 
 if (process.env.NODE_ENV !== 'production') {
+  /* eslint-disable global-require */
   const devServer = require('./devServer');
   app.use(devServer);
 } else {
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.listen(PORT, () => {
+  /* eslint-disable no-console */
   console.log(`
     Server corriendo en http://localhost:${PORT}
     GraphiQL en http://localhost:${PORT}/graphiql
