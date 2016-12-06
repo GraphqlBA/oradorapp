@@ -54,6 +54,9 @@ module.exports = {
   },
   resolve: {
     root: rootPath,
+    alias: {
+      db: path.join(__dirname, './db.js')
+    },
     extensions: ['', '.js', '.jsx', '.json', '.css', '.scss']
   },
   plugins: [

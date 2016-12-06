@@ -1,4 +1,7 @@
 {
   "presets": ["es2015", "stage-1", "react"],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": [
+    "react-hot-loader/babel",
+    "./build/babelRelayPlugin"
+  ]
 }

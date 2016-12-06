@@ -8,10 +8,10 @@ const SpeakerCard = ({ speaker }) => (
     <div className={styles.card}>
       <div
         className={styles.picture}
-        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${speaker.first_name}")` }}
+        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${speaker.firstName}")` }}
       />
       <div className={styles.fullName}>
-        {speaker.first_name} {speaker.last_name}
+        {speaker.firstName} {speaker.lastName}
       </div>
     </div>
   </Link>

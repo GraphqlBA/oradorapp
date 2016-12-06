@@ -1,25 +1,5 @@
 const { connectionFromArray, toGlobalId, fromGlobalId } = require('graphql-relay');
-
-const speakers = [
-  {
-    id: 1,
-    firstName: 'Pablo',
-    lastName: 'Chiappetti',
-    nickName: 'Chapa',
-    bio: 'Dev. Llego patológicamente tarde a todos lados. De Rivadavia para abajo.',
-    githubHandle: 'p4bloch',
-    twitterHandle: 'p4bloch',
-    website: 'https://p4bloch.me'
-  }
-];
-
-const talks = [
-  {
-    id: 1,
-    title: 'Un titulo',
-    description: 'Una descripcion'
-  }
-];
+const db = require('../db');
 
 const resolvers = {
   Node: {
@@ -34,25 +14,43 @@ const resolvers = {
     }
   },
   Speaker: {
-    id: speaker => toGlobalId('Speaker', speaker.id)
+    id: speaker => toGlobalId('Speaker', speaker.id),
+    talks: (speaker, args) => {
+      const talks = db.getTalks();
+      const speakers = talks.filter(talk => (
+        talk.speakers.includes(Number(speaker.id))
+      ));
+
+      return connectionFromArray(speakers, args);
+    }
   },
   Talk: {
-    id: talk => toGlobalId('Talk', talk.id)
+    id: talk => toGlobalId('Talk', talk.id),
+    speakers: talk => talk.speakers.map(db.getSpeakerById),
+    event: talk => db.getEventById(talk.event)
   },
-  Query: {
+  Event: {
+    eventSeries: event => db.getEventSeriesById(event.eventSeries)
+  },
+  User: {
     speakers(root, args) {
-      return connectionFromArray(speakers, args);
+      return connectionFromArray(db.getSpeakers(), args);
     },
     talks(root, args) {
-      return connectionFromArray(talks, args);
+      return connectionFromArray(db.getTalks(), args);
+    }
+  },
+  Query: {
+    viewer() {
+      return {};
     },
     node(root, args) {
       const { type, id } = fromGlobalId(args.id);
       switch (type) {
         case 'Speaker':
-          return speakers.find(s => s.id === +id);
+          return db.getSpeakers().find(s => s.id === +id);
         case 'Talk':
-          return talks.find(t => t.id === +id);
+          return db.getTalks().find(t => t.id === +id);
         default:
           return null;
       }
