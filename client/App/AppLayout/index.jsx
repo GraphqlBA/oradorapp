@@ -1,9 +1,11 @@
 import React from 'react';
 
+import styles from './styles.scss';
+
 const AppLayout = ({ topBar, mainContent }) => (
   <div>
-    <div>{topBar}</div>
-    <div>{mainContent}</div>
+    {topBar}
+    <div className={styles.content}>{mainContent}</div>
   </div>
 );
 
