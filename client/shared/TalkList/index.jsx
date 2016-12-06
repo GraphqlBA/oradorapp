@@ -8,7 +8,7 @@ const TalkItem = ({ talk }) => (
     <div className={styles.item}>
       <div
         className={styles.logo}
-        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${talk.event.event_series.title}")` }}
+        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${talk.event.eventSeries.title}")` }}
       />
       <div className={styles.content}>
         <div className={styles.title}>

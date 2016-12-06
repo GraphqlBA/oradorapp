@@ -1,20 +1,31 @@
 import React from 'react';
-import * as db from 'db';
+import Relay from 'react-relay';
 
 import SpeakerList from 'shared/SpeakerList';
 
 
-const TalkScreen = ({ params: { id } }) => {
-  const talk = db.getTalkByIdWithSpeakers(id);
+const TalkScreen = ({ talk }) => (
+  <div>
+    <h1>{talk.title}</h1>
+    <p>{talk.description}</p>
+    <h2>Oradores</h2>
+    <SpeakerList speakers={talk.speakers} />
+  </div>
+);
 
-  return (
-    <div>
-      <h1>{talk.title}</h1>
-      <p>{talk.description}</p>
-      <h2>Oradores</h2>
-      <SpeakerList speakers={talk.speakers} />
-    </div>
-  );
-};
-
-export default TalkScreen;
+export default Relay.createContainer(TalkScreen, {
+  initialVariables: { talkId: null },
+  fragments: {
+    talk: () => Relay.QL`
+      fragment on Talk {
+        title
+        description
+        speakers {
+          id
+          firstName
+          lastName
+        }
+      }
+    `
+  }
+});

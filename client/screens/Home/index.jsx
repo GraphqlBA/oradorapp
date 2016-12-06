@@ -1,29 +1,79 @@
 import React from 'react';
-import * as db from 'db';
+import Relay from 'react-relay';
 
 import SpeakerList from 'shared/SpeakerList';
 import TalkList from 'shared/TalkList';
 
 
-const SpeakersSection = () => (
+let SpeakersSection = ({ viewer }) => (
   <div>
     <h1>Oradores</h1>
-    <SpeakerList speakers={db.getSpeakers()} />
+    <SpeakerList speakers={viewer.speakers.edges.map(e => e.node)} />
   </div>
 );
 
-const TalksSection = () => (
+SpeakersSection = Relay.createContainer(SpeakersSection, {
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on User {
+        speakers(first: 10) {
+          edges {
+            node {
+              id
+              firstName
+              lastName
+            }
+          }
+        }
+      }
+    `
+  }
+});
+
+let TalksSection = ({ viewer }) => (
   <div>
     <h1>Charlas</h1>
-    <TalkList talks={db.getTalks()} />
+    <TalkList talks={viewer.talks.edges.map(e => e.node)} />
   </div>
 );
 
-const MainScreen = () => (
+TalksSection = Relay.createContainer(TalksSection, {
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on User {
+        talks(first: 10) {
+          edges {
+            node {
+              id
+              title
+              description
+              event {
+                eventSeries {
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    `
+  }
+});
+
+const HomeScreen = ({ viewer }) => (
   <div>
-    <SpeakersSection />
-    <TalksSection />
+    <SpeakersSection viewer={viewer} />
+    <TalksSection viewer={viewer} />
   </div>
 );
 
-export default MainScreen;
+export default Relay.createContainer(HomeScreen, {
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on User {
+        ${SpeakersSection.getFragment('viewer')}
+        ${TalksSection.getFragment('viewer')}
+      }
+    `
+  }
+});

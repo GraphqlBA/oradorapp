@@ -98,10 +98,14 @@ type EventSeries implements Node {
   events(${CONNECTION_ARGS}): EventConnection!
 }
 
-type Query {
-  node(id: ID!): Node
+type User {
   speakers(query: String, ${CONNECTION_ARGS}): SpeakerConnection!
   talks(query: String, ${CONNECTION_ARGS}): TalkConnection!
+}
+
+type Query {
+  viewer: User!
+  node(id: ID!): Node
 }
 
 schema {
