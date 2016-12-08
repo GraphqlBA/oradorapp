@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Relay from 'react-relay';
 
 import styles from './styles.scss';
 
-const TalkItem = ({ talk }) => (
+let TalkItem = ({ talk }) => (
   <Link to={`/talk/${talk.id}`}>
     <div className={styles.item}>
       <div
@@ -20,6 +21,23 @@ const TalkItem = ({ talk }) => (
   </Link>
 );
 
+TalkItem = Relay.createContainer(TalkItem, {
+  fragments: {
+    talk: () => Relay.QL`
+      fragment on Talk {
+        id
+        title
+        description
+        event {
+          eventSeries {
+            title
+          }
+        }
+      }
+    `
+  }
+});
+
 const TalkList = ({ talks }) => (
   <ul className={styles.list}>
     {talks.map(talk => (
@@ -30,4 +48,13 @@ const TalkList = ({ talks }) => (
   </ul>
 );
 
-export default TalkList;
+export default Relay.createContainer(TalkList, {
+  fragments: {
+    talks: () => Relay.QL`
+      fragment on Talk @relay(plural: true) {
+        id
+        ${TalkItem.getFragment('talk')}
+      }
+    `
+  }
+});

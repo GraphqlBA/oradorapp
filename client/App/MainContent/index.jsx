@@ -37,7 +37,22 @@ const MainContent = () => (
       pattern="/talk/:id"
       render={matchProps => (
         matchProps.params.id === 'new' ? (
-          <NewTalk {...matchProps} />
+          <Relay.Renderer
+            environment={Relay.Store}
+            Container={NewTalk}
+            queryConfig={{
+              name: 'NewTalkQueries',
+              queries: {
+                viewer: () => Relay.QL`
+                  query { viewer }
+                `
+              },
+              params: {}
+            }}
+            render={({ props }) => (
+              props ? <NewTalk {...matchProps} {...props} /> : undefined
+            )}
+          />
         ) : (
           <Relay.Renderer
             environment={Relay.Store}
