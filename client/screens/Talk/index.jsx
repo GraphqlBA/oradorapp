@@ -21,9 +21,7 @@ export default Relay.createContainer(TalkScreen, {
         title
         description
         speakers {
-          id
-          firstName
-          lastName
+          ${SpeakerList.getFragment('speakers')}
         }
       }
     `

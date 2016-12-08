@@ -32,9 +32,7 @@ SpeakersSection = Relay.createContainer(SpeakersSection, {
           }
           edges {
             node {
-              id
-              firstName
-              lastName
+              ${SpeakerList.getFragment('speakers')}
             }
           }
         }
@@ -71,14 +69,7 @@ TalksSection = Relay.createContainer(TalksSection, {
           }
           edges {
             node {
-              id
-              title
-              description
-              event {
-                eventSeries {
-                  title
-                }
-              }
+              ${TalkList.getFragment('talks')}
             }
           }
         }

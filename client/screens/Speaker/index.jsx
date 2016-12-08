@@ -37,14 +37,7 @@ export default Relay.createContainer(SpeakerScreen, {
           }
           edges {
             node {
-              id
-              title
-              description
-              event {
-                eventSeries {
-                  title
-                }
-              }
+              ${TalkList.getFragment('talks')}
             }
           }
         }

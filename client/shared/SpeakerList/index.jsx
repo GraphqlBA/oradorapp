@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Relay from 'react-relay';
 
 import styles from './styles.scss';
 
-const SpeakerCard = ({ speaker }) => (
+let SpeakerCard = ({ speaker }) => (
   <Link to={`/speaker/${speaker.id}`}>
     <div className={styles.card}>
       <div
@@ -17,6 +18,18 @@ const SpeakerCard = ({ speaker }) => (
   </Link>
 );
 
+SpeakerCard = Relay.createContainer(SpeakerCard, {
+  fragments: {
+    speaker: () => Relay.QL`
+      fragment on Speaker {
+        id
+        firstName
+        lastName
+      }
+    `
+  }
+});
+
 const SpeakerList = ({ speakers }) => (
   <ul className={styles.list}>
     {speakers.map(speaker => (
@@ -27,4 +40,13 @@ const SpeakerList = ({ speakers }) => (
   </ul>
 );
 
-export default SpeakerList;
+export default Relay.createContainer(SpeakerList, {
+  fragments: {
+    speakers: () => Relay.QL`
+      fragment on Speaker @relay(plural: true) {
+        id
+        ${SpeakerCard.getFragment('speaker')}
+      }
+    `
+  }
+});
