@@ -98,9 +98,11 @@ type EventSeries implements Node {
   events(${CONNECTION_ARGS}): EventConnection!
 }
 
-type User {
+type User implements Node {
+  id: ID!
   speakers(query: String, ${CONNECTION_ARGS}): SpeakerConnection!
   talks(query: String, ${CONNECTION_ARGS}): TalkConnection!
+  events(query: String, ${CONNECTION_ARGS}): EventConnection!
 }
 
 type Query {
@@ -108,8 +110,29 @@ type Query {
   node(id: ID!): Node
 }
 
+input AddTalkInput {
+  clientMutationId: String
+  title: String!
+  description: String!
+  topics: [String!]
+  speakerIds: [String!]
+  eventId: String!
+}
+
+type AddTalkPayload {
+  clientMutationId: String
+  viewer: User!
+  speakers: [Speaker!]
+  event: Event!
+}
+
+type Mutation {
+  addTalk(input: AddTalkInput!) : AddTalkPayload!
+}
+
 schema {
-  query: Query
+  query: Query,
+  mutation: Mutation
 }
 `;
 

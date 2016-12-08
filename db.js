@@ -109,9 +109,27 @@ module.exports = {
     Object.keys(talks).map(getTalkById)
   ),
 
+  getEvents: () => (
+    Object.keys(events).map(getEventById)
+  ),
+
   getTalkById,
 
   getSpeakerById,
   getEventById,
-  getEventSeriesById
+  getEventSeriesById,
+  addTalk: (payload) => {
+    const id = Math.max.apply(null, Object.keys(talks)) + 1;
+    const newTalk = {
+      id,
+      title: payload.title,
+      description: payload.description,
+      topics: payload.topics,
+      event: payload.eventId,
+      speakers: payload.speakerIds
+    };
+
+    talks[id] = newTalk;
+    return newTalk;
+  }
 };
