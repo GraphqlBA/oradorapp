@@ -1294,7 +1294,7 @@
           "description": "",
           "fields": [
             {
-              "name": "addTalk",
+              "name": "talkAdd",
               "description": "",
               "args": [
                 {
@@ -1305,7 +1305,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "AddTalkInput",
+                      "name": "TalkAddInput",
                       "ofType": null
                     }
                   },
@@ -1317,7 +1317,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "AddTalkPayload",
+                  "name": "TalkAddPayload",
                   "ofType": null
                 }
               },
@@ -1332,7 +1332,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "AddTalkInput",
+          "name": "TalkAddInput",
           "description": "",
           "fields": null,
           "inputFields": [
@@ -1431,7 +1431,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "AddTalkPayload",
+          "name": "TalkAddPayload",
           "description": "",
           "fields": [
             {

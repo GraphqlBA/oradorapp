@@ -62,7 +62,7 @@ const resolvers = {
     }
   },
 
-  AddTalkPayload: {
+  TalkAddPayload: {
     viewer: () => ({}),
     event: root => db.getEventById(+fromGlobalId(root.eventId).id),
     speakers: root => root.speakerIds.map(speakerId => (
@@ -70,7 +70,7 @@ const resolvers = {
     ))
   },
   Mutation: {
-    addTalk(root, args) {
+    talkAdd(root, args) {
       const { input } = args;
       const newTalk = db.addTalk({
         title: input.title,

@@ -110,7 +110,7 @@ type Query {
   node(id: ID!): Node
 }
 
-input AddTalkInput {
+input TalkAddInput {
   clientMutationId: String
   title: String!
   description: String!
@@ -119,7 +119,7 @@ input AddTalkInput {
   eventId: String!
 }
 
-type AddTalkPayload {
+type TalkAddPayload {
   clientMutationId: String
   viewer: User!
   speakers: [Speaker!]
@@ -127,7 +127,7 @@ type AddTalkPayload {
 }
 
 type Mutation {
-  addTalk(input: AddTalkInput!) : AddTalkPayload!
+  talkAdd(input: TalkAddInput!) : TalkAddPayload!
 }
 
 schema {
