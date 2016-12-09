@@ -9,7 +9,7 @@ let SpeakerCard = ({ speaker }) => (
     <div className={styles.card}>
       <div
         className={styles.picture}
-        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${speaker.firstName}")` }}
+        style={{ backgroundImage: `url("${speaker.picture}")` }}
       />
       <div className={styles.fullName}>
         {speaker.firstName} {speaker.lastName}
@@ -25,6 +25,7 @@ SpeakerCard = Relay.createContainer(SpeakerCard, {
         id
         firstName
         lastName
+        picture
       }
     `
   }

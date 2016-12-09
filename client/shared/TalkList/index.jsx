@@ -9,11 +9,14 @@ let TalkItem = ({ talk }) => (
     <div className={styles.item}>
       <div
         className={styles.logo}
-        style={{ backgroundImage: `url("http://placehold.it/300x300?text=${talk.event.eventSeries.title}")` }}
+        style={{ backgroundImage: `url("${talk.event.eventSeries.logo}")` }}
       />
       <div className={styles.content}>
         <div className={styles.title}>
           {talk.title}
+        </div>
+        <div className={styles.eventTitle}>
+          en {talk.event.title}
         </div>
         <p className={styles.description}>{talk.description}</p>
       </div>
@@ -29,8 +32,10 @@ TalkItem = Relay.createContainer(TalkItem, {
         title
         description
         event {
+          title
           eventSeries {
             title
+            logo
           }
         }
       }

@@ -4,6 +4,15 @@ import Relay from 'react-relay';
 import SpeakerList from 'shared/SpeakerList';
 import TalkList from 'shared/TalkList';
 
+import styles from './styles.scss';
+
+const Section = ({ title, children }) => (
+  <div>
+    <h1 className={styles.sectionTitle}>{title}</h1>
+    {children}
+  </div>
+);
+
 const fetchMoreSpeakers = relay => (ev) => {
   ev.preventDefault();
   relay.setVariables({
@@ -12,13 +21,12 @@ const fetchMoreSpeakers = relay => (ev) => {
 };
 
 let SpeakersSection = ({ viewer, relay }) => (
-  <div>
-    <h1>Oradores</h1>
+  <Section title="Oradores">
     <SpeakerList speakers={viewer.speakers.edges.map(e => e.node)} />
     {viewer.speakers.pageInfo.hasNextPage &&
       <button onClick={fetchMoreSpeakers(relay)}>Ver Más</button>
     }
-  </div>
+  </Section>
 );
 
 SpeakersSection = Relay.createContainer(SpeakersSection, {
@@ -49,13 +57,12 @@ const fetchMoreTalks = relay => (ev) => {
 };
 
 let TalksSection = ({ viewer, relay }) => (
-  <div>
-    <h1>Charlas</h1>
+  <Section title="Charlas">
     <TalkList talks={viewer.talks.edges.map(e => e.node)} />
     {viewer.talks.pageInfo.hasNextPage &&
       <button onClick={fetchMoreTalks(relay)}>Ver Más</button>
     }
-  </div>
+  </Section>
 );
 
 TalksSection = Relay.createContainer(TalksSection, {

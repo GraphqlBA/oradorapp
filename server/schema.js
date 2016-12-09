@@ -64,6 +64,7 @@ type Speaker implements Node {
   lastName: String!
   nickName: String
   bio: String!
+  picture: String
   githubHandle: String
   twitterHandle: String
   website: String
@@ -84,8 +85,8 @@ type Talk implements Node {
 type Event implements Node {
   id: ID!
   title: String!
-  start: DateTime!
-  end: DateTime
+  start: String! #TODO: Change to DateTime
+  end: String #TODO: Change to DateTime
   location: String
   talks(${CONNECTION_ARGS}): TalkConnection!
   eventSeries: EventSeries!
@@ -95,6 +96,7 @@ type Event implements Node {
 type EventSeries implements Node {
   id: ID!
   title: String!
+  logo: String
   events(${CONNECTION_ARGS}): EventConnection!
 }
 

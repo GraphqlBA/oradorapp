@@ -1,0 +1,36 @@
+@import "~sass/colors";
+
+.eventContainer {
+  display: flex;
+}
+
+.topic {
+  font-size: .7em;
+  background-color: $gray-40;
+  border-radius: .3em;
+  color: white;
+  padding: .2em .5em;
+}
+
+.topic + .topic {
+  margin-left: .5em;
+}
+
+.logo {
+  background-position: center center;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+}
+
+.eventDetails {
+  flex: 1;
+  padding: 0 1em;
+  margin: 0;
+  color: $gray-60;
+}
+
+.eventTitle {
+  font-weight: bold;
+  color: $gray-80;
+}

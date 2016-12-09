@@ -26,5 +26,7 @@
 }
 
 .actions {
-
+ & > a {
+   color: inherit;
+ }
 }

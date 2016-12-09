@@ -1,0 +1,29 @@
+@import "~sass/colors";
+
+.body {
+  display: flex;
+}
+
+.picture {
+  background-position: center center;
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+}
+
+.details {
+  flex: 1;
+  padding: 0 1em;
+  margin: 0;
+}
+
+.links {
+  list-style: none;
+  fill: $gray-80;
+  padding: 0;
+
+  > li > a {
+    color: inherit;
+    vertical-align: baseline;;
+  }
+}
