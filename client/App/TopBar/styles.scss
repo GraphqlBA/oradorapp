@@ -15,9 +15,14 @@
   color: $gray-90;
 }
 
-.input {
+.form {
   flex: 1;
   margin: 0 2em;
+  display: flex;
+}
+
+.input {
+  flex: 1;
 }
 
 .actions {

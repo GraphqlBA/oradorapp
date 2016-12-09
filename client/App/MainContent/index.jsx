@@ -20,11 +20,17 @@ const MainContent = () => (
           queryConfig={{
             name: 'HomeQueries',
             queries: {
-              viewer: () => Relay.QL`
-                query { viewer }
+              viewer: (Component, { search }) => Relay.QL`
+                query {
+                  viewer {
+                    ${Component.getFragment('viewer', { search })}
+                  }
+                }
               `
             },
-            params: {}
+            params: {
+              search: (matchProps.location.query || {}).q || ''
+            }
           }}
           render={({ props }) => (
             props ? <Home {...matchProps} {...props} /> : undefined

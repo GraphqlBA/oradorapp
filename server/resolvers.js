@@ -30,10 +30,10 @@ const resolvers = {
   User: {
     id: () => toGlobalId('User', 1),
     speakers(root, args) {
-      return connectionFromArray(db.getSpeakers(), args);
+      return connectionFromArray(db.getSpeakers(args.query), args);
     },
     talks(root, args) {
-      return connectionFromArray(db.getTalks(), args);
+      return connectionFromArray(db.getTalks(args.query), args);
     },
     events(root, args) {
       return connectionFromArray(db.getEvents(), args);

@@ -102,12 +102,26 @@ const getTalkById = id => talks[id];
 const getSpeakerById = id => speakers[id];
 
 module.exports = {
-  getSpeakers: () => (
-    Object.keys(speakers).map(getSpeakerById)
-  ),
-  getTalks: () => (
-    Object.keys(talks).map(getTalkById)
-  ),
+  getSpeakers: (query) => {
+    let list = Object.keys(speakers).map(getSpeakerById);
+    if (query) {
+      const q = query.toLowerCase();
+      list = list.filter(speaker => (
+        `${speaker.firstName} ${speaker.lastName}`.toLowerCase().includes(q)
+      ));
+    }
+    return list;
+  },
+  getTalks: (query) => {
+    let list = Object.keys(talks).map(getTalkById);
+    if (query) {
+      const q = query.toLowerCase();
+      list = list.filter(talk => (
+        `${talk.title} ${talk.description}`.toLowerCase().includes(q)
+      ));
+    }
+    return list;
+  },
 
   getEvents: () => (
     Object.keys(events).map(getEventById)

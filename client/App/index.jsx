@@ -7,10 +7,12 @@ import MainContent from './MainContent';
 
 const App = () => (
   <BrowserRouter>
-    <AppLayout
-      topBar={<TopBar />}
-      mainContent={<MainContent />}
-    />
+    {({ router }) => (
+      <AppLayout
+        topBar={<TopBar router={router} />}
+        mainContent={<MainContent />}
+      />
+    )}
   </BrowserRouter>
 );
 
