@@ -33,5 +33,6 @@ type TalkAddPayload {
   viewer: User!
   speakers: [Speaker!]
   event: Event!
+  addedTalk: Talk
 }
 `;

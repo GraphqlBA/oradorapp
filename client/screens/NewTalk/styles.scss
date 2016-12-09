@@ -1,3 +1,9 @@
-.labelContent {
-  margin-bottom: 5px;
+@import "~sass/colors";
+
+.formField {
+  margin: 1em 0;
+}
+
+.formFieldLabel {
+  margin-bottom: .5em;
 }
