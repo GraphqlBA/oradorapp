@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import Relay from 'react-relay';
 
-class AddTalkMutation extends Relay.Mutation {
+class TalkAddMutation extends Relay.Mutation {
   static fragments = {
     viewer: () => Relay.QL`
       fragment on User {
@@ -12,7 +12,7 @@ class AddTalkMutation extends Relay.Mutation {
   };
 
   getMutation() {
-    return Relay.QL`mutation { addTalk }`;
+    return Relay.QL`mutation { talkAdd }`;
   }
 
   getVariables() {
@@ -27,7 +27,7 @@ class AddTalkMutation extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-      fragment on AddTalkPayload {
+      fragment on TalkAddPayload {
         viewer { talks }
         speakers { talks }
         event { talks }
@@ -93,7 +93,7 @@ class NewTalkScreen extends React.Component {
   handleSubmit = (ev) => {
     ev.preventDefault();
 
-    this.props.relay.commitUpdate(new AddTalkMutation({
+    this.props.relay.commitUpdate(new TalkAddMutation({
       viewer: this.props.viewer,
       title: this.state.title,
       description: this.state.description,
@@ -199,7 +199,7 @@ export default Relay.createContainer(NewTalkScreen, {
     viewer: () => Relay.QL`
       fragment on User {
         id
-        ${AddTalkMutation.getFragment('viewer')}
+        ${TalkAddMutation.getFragment('viewer')}
         speakers(first: 10) {
           edges {
             node {
