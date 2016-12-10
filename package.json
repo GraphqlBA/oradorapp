@@ -4,7 +4,7 @@
   "description": "App para ver oradores y eventos locales",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server",
+    "start": "nodemon ./server",
     "db:migrate": "knex migrate:latest --knexfile=server/knexfile.js",
     "db:migrate-make": "knex migrate:make --knexfile=server/knexfile.js -- ",
     "db:migrate-rollback": "knex migrate:rollback --knexfile=server/knexfile.js",
@@ -61,6 +61,7 @@
     "eslint-plugin-react": "^6.7.1",
     "html-webpack-plugin": "^2.24.1",
     "node-sass": "^3.13.0",
+    "nodemon": "^1.11.0",
     "postcss-loader": "^1.1.1",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",

@@ -6,7 +6,7 @@ Aplicación de muestra sobre cómo implementar GraphQL. Se va a utilizar como de
 
 ### Server
 
-Para usar sqlite, crear el archivo `server/dev.sqlite3`. Para usar otro motor, configurar el kenxfile acorde.
+Para usar sqlite, crear el archivo `server/db/dev.sqlite3`. Para usar otro motor, configurar el kenxfile acorde.
 
 1. Correr las migraciones:
   ```
