@@ -1,5 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools');
-const resolvers = require('./resolvers');
+const resolvers = require('./resolvers/db');
 
 const CONNECTION_ARGS = 'after: String, first: Int, before: String, last: Int';
 
@@ -62,7 +62,7 @@ type Speaker implements Node {
   id: ID!
   firstName: String!
   lastName: String!
-  nickName: String
+  nickname: String
   bio: String!
   picture: String
   githubHandle: String
@@ -76,7 +76,7 @@ type Talk implements Node {
   id: ID!
   title: String!
   description: String!
-  topics: [String!]
+  topics: [String!] #TODO: Implement Topic type
   speakers: [Speaker!]
   event: Event!
 }
