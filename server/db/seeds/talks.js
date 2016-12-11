@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies, camelcase */
 const casual = require('casual');
 const { resetSequence } = require('./util');
+const { topics } = require('./topics');
 
 function talkFactory() {
   return {
@@ -23,6 +24,10 @@ exports.seed = (knex, Promise) => (
       [...Array(casual.integer(1, 3))].forEach(() => {
         const speaker_id = casual.integer(1, 100);
         promises.push(knex('speakers_talks').insert({ speaker_id, talk_id }));
+      });
+      [...Array(casual.integer(1, 3))].forEach(() => {
+        const topic_id = casual.integer(1, topics.length);
+        promises.push(knex('talks_topics').insert({ topic_id, talk_id }));
       });
     });
 
