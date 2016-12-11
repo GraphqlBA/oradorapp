@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
+const { resetSequence } = require('./util');
 
 function eventFactory() {
   const date = casual.date();
@@ -18,21 +19,21 @@ function eventSeriesFactory() {
   };
 }
 
-exports.seed = (knex, Promise) => {
-  knex('events').del().then(() => {
+exports.seed = (knex, Promise) => (
+  Promise.all([
+    resetSequence(knex, 'events'),
+    resetSequence(knex, 'event_series'),
+    knex('events').del(),
+    knex('event_series').del()
+  ]).then(() => {
     const promises = [];
     [...Array(100)].forEach(() => {
       promises.push(knex('events').insert(eventFactory()));
     });
-
-    return Promise.all(promises);
-  });
-  knex('event_series').del().then(() => {
-    const promises = [];
     [...Array(100)].forEach(() => {
       promises.push(knex('event_series').insert(eventSeriesFactory()));
     });
 
     return Promise.all(promises);
-  });
-};
+  })
+);
