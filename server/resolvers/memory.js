@@ -1,5 +1,5 @@
 const { connectionFromArray, toGlobalId, fromGlobalId } = require('graphql-relay');
-const db = require('../db');
+const db = require('../connectors/memory');
 
 const resolvers = {
   Node: {
