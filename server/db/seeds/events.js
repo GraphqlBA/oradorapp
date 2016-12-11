@@ -14,8 +14,10 @@ function eventFactory() {
 }
 
 function eventSeriesFactory() {
+  const confOrMeetup = casual.random_element(['Conf', 'Meetup']);
   return {
-    title: `${casual.name} ${casual.random_element(['Conf', 'Meetup'])}`
+    title: `${casual.name} ${confOrMeetup}`,
+    logo: `http://placehold.it/100x100?text=${confOrMeetup}`
   };
 }
 
