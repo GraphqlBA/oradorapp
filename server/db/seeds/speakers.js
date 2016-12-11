@@ -11,6 +11,7 @@ function speakerFactory() {
     github_handle: username,
     twitter_handle: username,
     website: casual.url,
+    picture: `http://placehold.it/300x300?text=${username}`,
     bio: casual.sentences(3)
   };
 }
