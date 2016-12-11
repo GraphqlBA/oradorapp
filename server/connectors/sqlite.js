@@ -7,13 +7,30 @@ const { getPaginatedModel } = require('./util/pagination');
 const { connectionFromCollection, modelToJSON } = require('./util/relay');
 
 module.exports = {
-  getSpeakers: args => getPaginatedModel(Speaker, args).then(
-    collection => connectionFromCollection(collection, args, 'Speaker')
-  ),
+  getSpeakers: (args) => {
+    const query = qb => (args.query ? (
+      qb
+        .where('first_name', 'LIKE', `%${args.query}%`)
+        .orWhere('last_name', 'LIKE', `%${args.query}%`)
+    ) : false);
 
-  getTalks: args => getPaginatedModel(Talk, args, { withRelated: ['event.eventSeries'] }).then(
-    collection => connectionFromCollection(collection, args, 'Talk')
-  ),
+    return getPaginatedModel(Speaker, args, query).then(
+      collection => connectionFromCollection(collection, args, 'Speaker')
+    );
+  },
+
+  getTalks: (args) => {
+    const query = qb => (args.query ? (
+      qb
+        .where('title', 'LIKE', `%${args.query}%`)
+        .orWhere('description', 'LIKE', `%${args.query}%`)
+    ) : false);
+    const extraParams = { withRelated: ['event.eventSeries'] };
+
+    return getPaginatedModel(Talk, args, query, extraParams).then(
+      collection => connectionFromCollection(collection, args, 'Talk')
+    );
+  },
 
   getEvents: args => getPaginatedModel(Event, args).then(
     collection => connectionFromCollection(collection, args, 'Event')

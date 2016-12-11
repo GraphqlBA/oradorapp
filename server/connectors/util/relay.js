@@ -11,7 +11,7 @@ const connectionFromCollection = (collection, args, type) => {
     edges: items.map(item => createNode(item, type)),
     pageInfo: {
       startCursor: args.after ? args.after : undefined,
-      endCursor: toGlobalId(type, items[items.length - 1].id),
+      endCursor: items.legnth && toGlobalId(type, items[items.length - 1].id),
       hasPreviousPage: shouldHavePreviousPage(collection.pagination),
       hasNextPage: shouldHaveNextPage(collection.pagination)
     }
