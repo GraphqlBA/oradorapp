@@ -6,6 +6,52 @@ import SpeakerList from 'shared/SpeakerList';
 
 import styles from './styles.scss';
 
+class TalkFavoriteMutation extends Relay.Mutation {
+  static fragments = {
+    talk: () => Relay.QL`
+      fragment on Talk {
+        id
+      }
+   `
+  };
+
+  getMutation() {
+    return Relay.QL`mutation { talkFavorite }`;
+  }
+
+  getVariables() {
+    return { talkId: this.props.talk.id };
+  }
+
+  getFatQuery() {
+    return Relay.QL`
+      fragment on TalkFavoritePayload {
+        talk { favorited }
+      }
+    `;
+  }
+
+  getConfigs() {
+    return [
+      {
+        type: 'FIELDS_CHANGE',
+        fieldIDs: {
+          talk: this.props.talk.id
+        }
+      }
+    ];
+  }
+
+  getOptimisticResponse() {
+    return {
+      talk: {
+        id: this.props.talk.id,
+        favorited: true
+      }
+    };
+  }
+}
+
 const formatter = new Intl.DateTimeFormat('es-AR', {
   weekday: 'long',
   year: 'numeric',
@@ -14,17 +60,29 @@ const formatter = new Intl.DateTimeFormat('es-AR', {
 });
 const formatDate = date => formatter.format(date);
 
-const TalkScreen = ({ talk }) => (
+const handleFavoriteClick = (relay, talk) => (ev) => {
+  ev.preventDefault();
+
+  relay.commitUpdate(new TalkFavoriteMutation({ talk }));
+};
+
+const TalkScreen = ({ talk, relay }) => (
   <ScreenMainSection title={talk.title}>
     <p>
       {talk.description}
     </p>
     <div className={styles.topics}>
-      {talk.topics.map((topic, index) => (
+      {(talk.topics || []).map((topic, index) => (
         <span className={styles.topic} key={index}>
           {topic}
         </span>
       ))}
+    </div>
+    <div>
+      {talk.favorited ? (
+        <span><i className="icon ion-ios-star" /> Favorito</span>
+      ) : <button onClick={handleFavoriteClick(relay, talk)}>Marcar como favorito</button>
+      }
     </div>
     <h2>Evento</h2>
     <div className={styles.eventContainer}>
@@ -59,6 +117,7 @@ export default Relay.createContainer(TalkScreen, {
         title
         description
         topics
+        favorited
         event {
           title
           location
@@ -71,6 +130,8 @@ export default Relay.createContainer(TalkScreen, {
         speakers {
           ${SpeakerList.getFragment('speakers')}
         }
+
+        ${TalkFavoriteMutation.getFragment('talk')}
       }
     `
   }

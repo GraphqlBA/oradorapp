@@ -14,9 +14,20 @@ type Talk implements Node {
   id: ID!
   title: String!
   description: String!
+  favorited: Boolean
   topics: [String!] #TODO: Implement Topic type
   speakers: [Speaker!]
   event: Event!
+}
+
+input TalkFavoriteInput {
+  clientMutationId: String
+  talkId: String!
+}
+
+type TalkFavoritePayload {
+  clientMutationId: String
+  talk: Talk!
 }
 
 input TalkAddInput {
