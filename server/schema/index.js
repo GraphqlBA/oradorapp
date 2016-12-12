@@ -1,5 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools');
-const resolvers = require('../resolvers/memory');
+const resolvers = require('../resolvers/db');
 const Event = require('./types/Event');
 const EventSeries = require('./types/EventSeries');
 const Speaker = require('./types/Speaker');

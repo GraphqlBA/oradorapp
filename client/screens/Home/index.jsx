@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import SpeakerList from 'shared/SpeakerList';
 import TalkList from 'shared/TalkList';
+import FetchMoreButton from 'shared/FetchMoreButton';
 
 import styles from './styles.scss';
 
@@ -13,18 +14,17 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-const fetchMoreSpeakers = relay => (ev) => {
-  ev.preventDefault();
-  relay.setVariables({
-    count: relay.variables.count + 5
-  });
-};
-
 let SpeakersSection = ({ viewer, relay }) => (
   <Section title="Oradores">
     <SpeakerList speakers={viewer.speakers.edges.map(e => e.node)} />
     {viewer.speakers.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreSpeakers(relay)} className={styles.paginationButton}>Ver Más</button>
+      <FetchMoreButton
+        onFetchMore={() => {
+          relay.setVariables({
+            count: relay.variables.count + 5
+          });
+        }}
+      />
     }
   </Section>
 );
@@ -49,18 +49,17 @@ SpeakersSection = Relay.createContainer(SpeakersSection, {
   }
 });
 
-const fetchMoreTalks = relay => (ev) => {
-  ev.preventDefault();
-  relay.setVariables({
-    count: relay.variables.count + 5
-  });
-};
-
 let TalksSection = ({ viewer, relay }) => (
   <Section title="Charlas">
     <TalkList talks={viewer.talks.edges.map(e => e.node)} />
     {viewer.talks.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreTalks(relay)} className={styles.paginationButton}>Ver Más</button>
+      <FetchMoreButton
+        onFetchMore={() => {
+          relay.setVariables({
+            count: relay.variables.count + 5
+          });
+        }}
+      />
     }
   </Section>
 );
