@@ -67,7 +67,8 @@ const resolvers = {
     event: root => db.getEventById(+fromGlobalId(root.eventId).id),
     speakers: root => root.speakerIds.map(speakerId => (
       db.getSpeakerById(+fromGlobalId(speakerId).id)
-    ))
+    )),
+    addedTalk: root => db.getTalkById(root.addedTalkId)
   },
   Mutation: {
     talkAdd(root, args) {
@@ -84,7 +85,7 @@ const resolvers = {
 
       return {
         clientMutationId: input.clientMutationId,
-        newTalkId: newTalk.id,
+        addedTalkId: newTalk.id,
         eventId: input.eventId,
         speakerIds: input.speakerIds
       };

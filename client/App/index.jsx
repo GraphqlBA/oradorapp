@@ -10,7 +10,7 @@ const App = () => (
     {({ router }) => (
       <AppLayout
         topBar={<TopBar router={router} />}
-        mainContent={<MainContent />}
+        mainContent={<MainContent router={router} />}
       />
     )}
   </BrowserRouter>

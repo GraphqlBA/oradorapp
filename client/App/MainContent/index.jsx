@@ -8,7 +8,7 @@ import NewTalk from 'screens/NewTalk';
 import Speaker from 'screens/Speaker';
 import NotFound from 'screens/NotFound';
 
-const MainContent = () => (
+const MainContent = ({ router }) => (
   <div>
     <Match
       exactly
@@ -56,7 +56,7 @@ const MainContent = () => (
               params: {}
             }}
             render={({ props }) => (
-              props ? <NewTalk {...matchProps} {...props} /> : undefined
+              props ? <NewTalk router={router} {...matchProps} {...props} /> : undefined
             )}
           />
         ) : (

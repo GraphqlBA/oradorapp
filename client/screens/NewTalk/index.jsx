@@ -1,7 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import Relay from 'react-relay';
+
 import styles from './styles.scss';
+
 
 class TalkAddMutation extends Relay.Mutation {
   static fragments = {
@@ -45,21 +46,46 @@ class TalkAddMutation extends Relay.Mutation {
           speakers: this.props.speakerIds,
           event: this.props.eventId
         }
+      },
+      {
+        type: 'REQUIRED_CHILDREN',
+        children: [
+          Relay.QL`
+            fragment on TalkAddPayload {
+              addedTalk { id }
+            }
+          `
+        ]
       }
     ];
   }
 }
 
+const FormField = ({ label, children }) => (
+  <div className={styles.formField}>
+    <label>
+      <div className={styles.formFieldLabel}>{label}</div>
+      {children}
+    </label>
+  </div>
+)
+
 
 class NewTalkScreen extends React.Component {
   state = {
     eventId: this.props.viewer.events.edges[0].node.id,
-    speakerId: this.props.viewer.speakers.edges[0].node.id,
+    speakerIds: [this.props.viewer.speakers.edges[0].node.id],
     title: '',
     description: '',
-    topics: '',
-    redirectTo: null
+    topics: ''
   };
+
+  isFormDisabled = () => (
+    !this.state.eventId ||
+      !this.state.speakerIds.length ||
+      !this.state.title ||
+      !this.state.description
+  )
 
   handleEventChange = (ev) => {
     this.setState({
@@ -69,7 +95,9 @@ class NewTalkScreen extends React.Component {
 
   handleSpeakerChange = (ev) => {
     this.setState({
-      speakerId: ev.target.value
+      speakerIds: [...ev.target.options]
+        .filter(option => option.selected)
+        .map(option => option.value)
     });
   }
 
@@ -94,99 +122,93 @@ class NewTalkScreen extends React.Component {
   handleSubmit = (ev) => {
     ev.preventDefault();
 
+    if (this.isFormDisabled()) return;
+
     this.props.relay.commitUpdate(new TalkAddMutation({
       viewer: this.props.viewer,
       title: this.state.title,
       description: this.state.description,
       topics: this.state.topics.split(',').map(t => t.trim()).filter(Boolean),
-      speakerIds: [this.state.speakerId],
+      speakerIds: this.state.speakerIds,
       eventId: this.state.eventId
     }), {
-      onSuccess: () => { this.setState({ redirectTo: '/' }); }
+      onSuccess: ({ talkAdd }) => {
+        this.props.router.transitionTo(`/talk/${talkAdd.addedTalk.id}`);
+      }
     });
   }
 
   render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={this.state.redirectTo} />;
-    }
-
     return (
       <div>
         <h1>Nueva Charla</h1>
         <form onSubmit={this.handleSubmit}>
-          <p>
-            <label htmlFor="evento">
-              <div className={styles.labelContent}>Buscá un evento</div>
-              <select
-                id="evento"
-                value={this.state.eventId}
-                onChange={this.handleEventChange}
-              >
-                {this.props.viewer.events.edges.map((edge) => {
-                  const event = edge.node;
+          <FormField label="Buscá un evento">
+            <select
+              id="evento"
+              value={this.state.eventId}
+              onChange={this.handleEventChange}
+            >
+              {this.props.viewer.events.edges.map((edge) => {
+                const event = edge.node;
 
-                  return (
-                    <option key={event.id} value={event.id}>
-                      {event.title}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-          </p>
-          <p>
-            <label htmlFor="orador">
-              <div className={styles.labelContent}>Buscá un orador</div>
-              <select
-                id="orador"
-                value={this.state.speakerId}
-                onChange={this.handleSpeakerChange}
-              >
-                {this.props.viewer.speakers.edges.map((edge) => {
-                  const speaker = edge.node;
+                return (
+                  <option key={event.id} value={event.id}>
+                    {event.title}
+                  </option>
+                );
+              })}
+            </select>
+          </FormField>
+          <FormField label="Buscá un orador">
+            <select
+              id="orador"
+              value={this.state.speakerIds}
+              multiple
+              onChange={this.handleSpeakerChange}
+            >
+              {this.props.viewer.speakers.edges.map((edge) => {
+                const speaker = edge.node;
 
-                  return (
-                    <option key={speaker.id} value={speaker.id}>
-                      {speaker.firstName} {speaker.lastName}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-          </p>
-          <p>
-            <label htmlFor="titulo">
-              <div className={styles.labelContent}>Agregá un titulo</div>
-              <input
-                type="text"
-                id="titulo"
-                value={this.state.title}
-                onChange={this.handleTitleChange}
-              />
-            </label>
-          </p>
-          <p>
-            <label htmlFor="description">
-              <div className={styles.labelContent}>Agregá una descripción</div>
-              <textarea
-                id="description"
-                onChange={this.handleDescriptionChange}
-              >{this.state.description}</textarea>
-            </label>
-          </p>
-          <p>
-            <label htmlFor="tags" >
-              <div className={styles.labelContent}>Agregá etiquetas para catalogar la charla (separadas por comas)</div>
-              <input
-                type="text"
-                id="tags"
-                value={this.state.topics}
-                onChange={this.handleTopicsChange}
-              />
-            </label>
-          </p>
-          <button type="submit">Listo! Agregar charla</button>
+                return (
+                  <option key={speaker.id} value={speaker.id}>
+                    {speaker.firstName} {speaker.lastName}
+                  </option>
+                );
+              })}
+            </select>
+          </FormField>
+          <FormField label="Agregá un titulo">
+            <input
+              type="text"
+              id="titulo"
+              value={this.state.title}
+              onChange={this.handleTitleChange}
+            />
+          </FormField>
+          <FormField label="Agregá una descripción">
+            <textarea
+              id="description"
+              value={this.state.description}
+              onChange={this.handleDescriptionChange}
+            />
+          </FormField>
+          <FormField label="Agregá etiquetas para catalogar la charla (separadas por comas)">
+            <input
+              type="text"
+              id="tags"
+              value={this.state.topics}
+              onChange={this.handleTopicsChange}
+            />
+          </FormField>
+          Listo? {
+            <button
+              type="submit"
+              disabled={this.isFormDisabled()}
+            >
+              Agregar charla
+            </button>
+          }
         </form>
       </div>
     );
@@ -199,7 +221,7 @@ export default Relay.createContainer(NewTalkScreen, {
       fragment on User {
         id
         ${TalkAddMutation.getFragment('viewer')}
-        speakers(first: 10) {
+        speakers(first: 1000) {
           edges {
             node {
               id
@@ -208,7 +230,7 @@ export default Relay.createContainer(NewTalkScreen, {
             }
           }
         }
-        events(first: 10) {
+        events(first: 1000) {
           edges {
             node {
               id
