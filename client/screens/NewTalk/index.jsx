@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import Relay from 'react-relay';
+import styles from './styles.scss';
 
 class TalkAddMutation extends Relay.Mutation {
   static fragments = {
@@ -116,7 +117,7 @@ class NewTalkScreen extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <p>
             <label htmlFor="evento">
-              Buscá un evento
+              <div className={styles.labelContent}>Buscá un evento</div>
               <select
                 id="evento"
                 value={this.state.eventId}
@@ -136,7 +137,7 @@ class NewTalkScreen extends React.Component {
           </p>
           <p>
             <label htmlFor="orador">
-              Buscá un orador
+              <div className={styles.labelContent}>Buscá un orador</div>
               <select
                 id="orador"
                 value={this.state.speakerId}
@@ -156,7 +157,7 @@ class NewTalkScreen extends React.Component {
           </p>
           <p>
             <label htmlFor="titulo">
-              Agregá un titulo
+              <div className={styles.labelContent}>Agregá un titulo</div>
               <input
                 type="text"
                 id="titulo"
@@ -167,18 +168,16 @@ class NewTalkScreen extends React.Component {
           </p>
           <p>
             <label htmlFor="description">
-              Agregá una descripción
-              <input
-                type="text"
+              <div className={styles.labelContent}>Agregá una descripción</div>
+              <textarea
                 id="description"
-                value={this.state.description}
                 onChange={this.handleDescriptionChange}
-              />
+              >{this.state.description}</textarea>
             </label>
           </p>
           <p>
             <label htmlFor="tags" >
-              Agregá etiquetas para catalogar la charla (separadas por comas)
+              <div className={styles.labelContent}>Agregá etiquetas para catalogar la charla (separadas por comas)</div>
               <input
                 type="text"
                 id="tags"

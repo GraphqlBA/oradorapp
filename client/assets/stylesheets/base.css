@@ -1,8 +1,9 @@
 @import "normalize.css";
 
 body {
-  font-family: 'Helvetica', 'Lucida Grande', 'sans-serif';
+  font-family: 'Lato', 'Helvetica', 'Lucida Grande', 'sans-serif';
   overflow-y: scroll;
+  font-weight: 300;
 }
 
 html {
@@ -15,4 +16,30 @@ html {
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid #1a1a1a;
+  padding: 0.5em 1em;
+  transition: all 0.1s ease-out;
+}
+
+button:hover {
+  border-color: #414365;
+  background-color: #414365;
+  color: #fafafa;
+}
+
+input, textarea {
+  border: 1px solid #ddd;
+  margin: 0;
+  padding: .8em 1em;
+  font-size: 0.8em;
+  outline:none;
+  &:focus {
+    outline:none;
+  }
 }

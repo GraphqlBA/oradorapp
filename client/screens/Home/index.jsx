@@ -24,7 +24,7 @@ let SpeakersSection = ({ viewer, relay }) => (
   <Section title="Oradores">
     <SpeakerList speakers={viewer.speakers.edges.map(e => e.node)} />
     {viewer.speakers.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreSpeakers(relay)}>Ver Más</button>
+      <button onClick={fetchMoreSpeakers(relay)} className={styles.paginationButton}>Ver Más</button>
     }
   </Section>
 );
@@ -60,7 +60,7 @@ let TalksSection = ({ viewer, relay }) => (
   <Section title="Charlas">
     <TalkList talks={viewer.talks.edges.map(e => e.node)} />
     {viewer.talks.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreTalks(relay)}>Ver Más</button>
+      <button onClick={fetchMoreTalks(relay)} className={styles.paginationButton}>Ver Más</button>
     }
   </Section>
 );

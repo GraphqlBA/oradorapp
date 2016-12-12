@@ -3,11 +3,12 @@
 .topBar {
   background: $yellow;
   color: $gray-90;
-  padding: .5em 1em;
+  padding: .8em 2em;
   border-bottom: 1px solid $gray-40;
 
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
@@ -17,16 +18,37 @@
 
 .form {
   flex: 1;
-  margin: 0 2em;
+  margin: 0 1em 0 0;
   display: flex;
+  position: relative;
+  i {
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 10px);
+  }
 }
 
 .input {
   flex: 1;
+  border: 0;
+  margin: 0;
+  padding: .8em 2.3em .8em 1em;
+  font-size: 0.8em;
+  &:focus {
+    outline:none;
+  }
 }
 
-.actions {
- & > a {
-   color: inherit;
- }
+.headerActions {
+  flex: .3;
+  display: flex;
+}
+
+.submit {
+  margin-left: 10px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
 }
