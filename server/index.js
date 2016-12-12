@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.listen(PORT, () => {
   /* eslint-disable no-console */
   console.log(`
-    Server corriendo en http://localhost:${PORT}
+    App corriendo en http://localhost:${PORT}
     GraphiQL en http://localhost:${PORT}/graphiql
   `);
 });

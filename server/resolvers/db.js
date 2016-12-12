@@ -1,5 +1,5 @@
 const { connectionFromArray, toGlobalId, fromGlobalId } = require('graphql-relay');
-const db = require('../db');
+const db = require('../connectors/sqlite');
 
 const resolvers = {
   Node: {
@@ -7,22 +7,14 @@ const resolvers = {
   },
   Speaker: {
     id: speaker => toGlobalId('Speaker', speaker.id),
-    talks: (speaker, args) => {
-      const talks = db.getTalks().filter(talk => (
-        talk.speakers.includes(Number(speaker.id))
-      ));
-
-      return connectionFromArray(talks, args);
-    }
+    talks: (speaker, args) => connectionFromArray(speaker.talks, args)
   },
   Talk: {
     id: talk => toGlobalId('Talk', talk.id),
-    speakers: talk => talk.speakers.map(db.getSpeakerById),
-    event: talk => db.getEventById(talk.event)
+    event: talk => talk.event
   },
   Event: {
-    id: event => toGlobalId('Event', event.id),
-    eventSeries: event => db.getEventSeriesById(event.eventSeries)
+    id: event => toGlobalId('Event', event.id)
   },
   EventSeries: {
     id: series => toGlobalId('EventSeries', series.id)
@@ -30,13 +22,13 @@ const resolvers = {
   User: {
     id: () => toGlobalId('User', 1),
     speakers(root, args) {
-      return connectionFromArray(db.getSpeakers(args.query), args);
+      return db.getSpeakers(args);
     },
     talks(root, args) {
-      return connectionFromArray(db.getTalks(args.query), args);
+      return db.getTalks(args);
     },
     events(root, args) {
-      return connectionFromArray(db.getEvents(), args);
+      return db.getEvents(args);
     }
   },
   Query: {
@@ -49,13 +41,21 @@ const resolvers = {
         case 'User':
           return { type: 'User' };
         case 'Speaker':
-          return Object.assign({ type: 'Speaker' }, db.getSpeakerById(+id));
+          return db.getSpeakerById(+id).then(speaker => (
+            Object.assign({ type: 'Speaker' }, speaker)
+          ));
         case 'Talk':
-          return Object.assign({ type: 'Talk' }, db.getTalkById(+id));
+          return db.getTalkById(+id).then(talk => (
+            Object.assign({ type: 'Talk' }, talk)
+          ));
         case 'Event':
-          return Object.assign({ type: 'Event' }, db.getEventById(+id));
+          return db.getEventById(+id).then(event => (
+            Object.assign({ type: 'Event' }, event)
+          ));
         case 'EventSeries':
-          return Object.assign({ type: 'EventSeries' }, db.getEventSeriesById(+id));
+          return db.getEventSerieById(+id).then(eventSerie => (
+            Object.assign({ type: 'EventSerie' }, eventSerie)
+          ));
         default:
           return null;
       }
