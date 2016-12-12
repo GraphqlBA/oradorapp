@@ -19,16 +19,16 @@ export default class TopBar extends React.Component {
     return (
       <div className={styles.topBar}>
         <Link to="/"><span className={styles.logo}>OradorApp</span></Link>
-        <form className={styles.form} onSubmit={this.handleFormSubmit}>
-          <input
-            ref={(el) => { this.searchInput = el; }}
-            className={styles.input}
-            placeholder="Buscar oradores o charlas..."
-          />
-          <button type="submit">Buscar</button>
-        </form>
-        <div className={styles.actions}>
-          <Link to="/talk/new">Agregar</Link>
+        <div className={styles.headerActions}>
+          <form className={styles.form} onSubmit={this.handleFormSubmit}>
+            <input
+              ref={(el) => { this.searchInput = el; }}
+              className={styles.input}
+              placeholder="Buscar oradores o charlas..."
+            />
+            <i className="icon ion-ios-search" />
+          </form>
+          <Link className={styles.action} to="/talk/new">Agregar</Link>
         </div>
       </div>
     );

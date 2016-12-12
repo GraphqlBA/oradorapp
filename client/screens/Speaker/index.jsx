@@ -78,7 +78,7 @@ const SpeakerScreen = ({ speaker, relay }) => (
     <h2>Ver Charlas</h2>
     <TalkList talks={speaker.talks.edges.map(e => e.node)} />
     {speaker.talks.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreTalks(relay)}>Ver Más</button>
+      <button onClick={fetchMoreTalks(relay)} className={styles.paginationButton}>Ver Más</button>
     }
   </ScreenMainSection>
 );
