@@ -13,7 +13,7 @@ let TalkItem = ({ talk }) => (
       />
       <div className={styles.content}>
         <div className={styles.title}>
-          {talk.title}
+          {talk.title} <i className={talk.favorited && 'icon ion-ios-star'} />
         </div>
         <div className={styles.eventTitle}>
           en {talk.event.title}
@@ -31,6 +31,7 @@ TalkItem = Relay.createContainer(TalkItem, {
         id
         title
         description
+        favorited
         event {
           title
           eventSeries {

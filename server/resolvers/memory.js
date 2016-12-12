@@ -71,6 +71,16 @@ const resolvers = {
     addedTalk: root => db.getTalkById(root.addedTalkId)
   },
   Mutation: {
+    talkFavorite(root, args) {
+      const { input } = args;
+      const talk = db.getTalkById(+fromGlobalId(input.talkId).id);
+      talk.favorited = true;
+
+      return {
+        clientMutationId: input.clientMutationId,
+        talk
+      };
+    },
     talkAdd(root, args) {
       const { input } = args;
       const newTalk = db.addTalk({

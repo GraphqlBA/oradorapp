@@ -39,6 +39,7 @@ const talks = {
     id: 1,
     title: 'Numquam dolor nobis et magnam.',
     description: 'Sed dolor qui odio fugit dolorem voluptatem. Recusandae laudantium quia quis illo enim voluptas porro. Dolores occaecati omnis hic dolores labore. Deserunt assumenda est aut repudiandae aut id.',
+    favorited: false,
     event: 1,
     speakers: [1]
   },
@@ -46,6 +47,7 @@ const talks = {
     id: 2,
     title: 'Consequatur dicta voluptas dolorem ut nihil quis occaecati.',
     description: 'Doloremque molestiae vel labore. Dolore maiores vel et iste dolores quaerat cum tempore. Quae id quaerat excepturi sint illo rem cupiditate. Sit eum et dolor quasi ullam.',
+    favorited: false,
     event: 2,
     speakers: [1, 2]
   },
@@ -53,6 +55,7 @@ const talks = {
     id: 3,
     title: 'Eos voluptatem amet ratione consequatur veritatis.',
     description: 'Architecto recusandae commodi quidem corporis ut dolores. Voluptas est voluptates qui odio. Eum quo veniam nisi eveniet dolore aut. Soluta adipisci mollitia iste aspernatur id et quidem.',
+    favorited: false,
     event: 3,
     speakers: [3]
   }
