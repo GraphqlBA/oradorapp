@@ -82,22 +82,22 @@ const resolvers = {
   Mutation: {
     talkAdd(root, args) {
       const { input } = args;
-      const newTalk = db.addTalk({
+      return db.talkAdd({
         title: input.title,
         description: input.description,
-        topics: input.topics,
+        topicIds: input.topicIds.map(topicId => (
+          +fromGlobalId(topicId).id
+        )),
         eventId: +fromGlobalId(input.eventId).id,
         speakerIds: input.speakerIds.map(speakerId => (
           +fromGlobalId(speakerId).id
         ))
-      });
-
-      return {
+      }).then(newTalk => ({
         clientMutationId: input.clientMutationId,
         newTalkId: newTalk.id,
         eventId: input.eventId,
         speakerIds: input.speakerIds
-      };
+      }));
     }
   }
 };

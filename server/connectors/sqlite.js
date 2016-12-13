@@ -65,11 +65,11 @@ module.exports = {
   getEventById: id => Event.query({ where: { id } }).fetch().then(modelToJSON),
   getEventSeriesById: id => EventSerie.query({ where: { id } }).fetch().then(modelToJSON),
   getTopicById: id => Topic.query({ where: { id } }).fetch().then(modelToJSON),
-  talkAdd: ({ title, description, eventId, speakerIds }) => (
+  talkAdd: ({ title, description, eventId, speakerIds, topicIds }) => (
     Talk.forge({ title, description, event_id: eventId }).save()
     .then(
       talk => talk.related('speakers').attach(speakerIds)
-      .then(() => talk.related('topics').attach([1, 2]))
+      .then(() => talk.related('topics').attach(topicIds))
     )
     .then(modelToJSON)
   )
