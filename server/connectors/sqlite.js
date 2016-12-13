@@ -33,11 +33,11 @@ module.exports = {
     );
   },
 
-  getTopics: (args) => {
-    return getPaginatedModel(Topic, args).then(
+  getTopics: args => (
+    getPaginatedModel(Topic, args).then(
       collection => connectionFromCollection(collection, args, 'Topic')
-    );
-  },
+    )
+  ),
 
   getEvents: args => getPaginatedModel(Event, args).then(
     collection => connectionFromCollection(collection, args, 'Event')
