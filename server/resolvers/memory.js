@@ -95,7 +95,7 @@ const resolvers = {
       const newTalk = db.addTalk({
         title: input.title,
         description: input.description,
-        topicIds: input.topics.map(topicId => (
+        topicIds: input.topicIds.map(topicId => (
           +fromGlobalId(topicId).id
         )),
         eventId: +fromGlobalId(input.eventId).id,

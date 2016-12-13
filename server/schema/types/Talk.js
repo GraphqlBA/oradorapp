@@ -34,7 +34,7 @@ input TalkAddInput {
   clientMutationId: String
   title: String!
   description: String!
-  topics: [String!]
+  topicIds: [String!]
   speakerIds: [String!]
   eventId: String!
 }

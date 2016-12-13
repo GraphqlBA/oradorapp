@@ -1699,7 +1699,7 @@
               "defaultValue": null
             },
             {
-              "name": "topics",
+              "name": "topicIds",
               "description": "",
               "type": {
                 "kind": "LIST",
