@@ -7,6 +7,15 @@ const Topic = require('../db/models/Topic');
 const { getPaginatedModel } = require('./util/pagination');
 const { connectionFromCollection, modelToJSON } = require('./util/relay');
 
+const getTalkById = id => Talk.query({ where: { id } }).fetch({
+  withRelated: ['speakers', 'event.eventSeries', 'topics']
+}).then(modelToJSON).then(talk => (
+  Object.assign(
+    talk,
+    { topics: talk.topics.map(topic => topic.name) }
+  )
+));
+
 module.exports = {
   getSpeakers: (args) => {
     const query = qb => (args.query ? (
@@ -47,14 +56,11 @@ module.exports = {
     collection => connectionFromCollection(collection, args, 'EventSerie')
   ),
 
-  getTalkById: id => Talk.query({ where: { id } }).fetch({
-    withRelated: ['speakers', 'event.eventSeries', 'topics']
-  }).then(modelToJSON).then(talk => (
-    Object.assign(
-      talk,
-      { topics: talk.topics.map(topic => topic.name) }
-    )
-  )),
+  getTalkById,
+
+  updateTalkById: (id, payload) => (
+    Talk.forge({ id }).save(payload).then(() => getTalkById(id))
+  ),
 
   getSpeakerById: id => (
     Speaker.query({ where: { id } })

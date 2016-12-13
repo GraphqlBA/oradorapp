@@ -98,6 +98,18 @@ const resolvers = {
         eventId: input.eventId,
         speakerIds: input.speakerIds
       }));
+    },
+    talkFavorite(root, args) {
+      const { input } = args;
+      return db.getTalkById(+fromGlobalId(input.talkId).id)
+        .then(talk => (
+            db.updateTalkById(talk.id, { favorited: true })
+              .then(updatedTalk => ({
+                clientMutationId: input.clientMutationId,
+                talk: updatedTalk
+              }))
+          )
+        );
     }
   }
 };
