@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import ScreenMainSection from 'shared/ScreenMainSection';
 import TalkList from 'shared/TalkList';
+import FetchMoreButton from 'shared/FetchMoreButton';
 
 import styles from './styles.scss';
 
@@ -56,13 +57,6 @@ SpeakerLinks = Relay.createContainer(SpeakerLinks, {
   }
 });
 
-const fetchMoreTalks = relay => (ev) => {
-  ev.preventDefault();
-  relay.setVariables({
-    count: relay.variables.count + 5
-  });
-};
-
 const SpeakerScreen = ({ speaker, relay }) => (
   <ScreenMainSection title={`${speaker.firstName} ${speaker.lastName}`}>
     <div className={styles.body}>
@@ -78,7 +72,13 @@ const SpeakerScreen = ({ speaker, relay }) => (
     <h2>Ver Charlas</h2>
     <TalkList talks={speaker.talks.edges.map(e => e.node)} />
     {speaker.talks.pageInfo.hasNextPage &&
-      <button onClick={fetchMoreTalks(relay)} className={styles.paginationButton}>Ver Más</button>
+      <FetchMoreButton
+        onFetchMore={() => {
+          relay.setVariables({
+            count: relay.variables.count + 5
+          });
+        }}
+      />
     }
   </ScreenMainSection>
 );
