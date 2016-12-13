@@ -78,7 +78,7 @@ const TalkScreen = ({ talk, relay }) => (
         </span>
       ))}
     </div>
-    <div>
+    <div className={styles.favorited}>
       {talk.favorited ? (
         <span><i className="icon ion-ios-star" /> Favorito</span>
       ) : <button onClick={handleFavoriteClick(relay, talk)}>Marcar como favorito</button>
