@@ -15,7 +15,7 @@ type Talk implements Node {
   title: String!
   description: String!
   favorited: Boolean
-  topics: [String!] #TODO: Implement Topic type
+  topics: [Topic!]
   speakers: [Speaker!]
   event: Event!
 }

@@ -85,7 +85,7 @@ const resolvers = {
       return db.talkAdd({
         title: input.title,
         description: input.description,
-        topicIds: input.topicIds.map(topicId => (
+        topicIds: input.topics.map(topicId => (
           +fromGlobalId(topicId).id
         )),
         eventId: +fromGlobalId(input.eventId).id,
@@ -94,7 +94,7 @@ const resolvers = {
         ))
       }).then(newTalk => ({
         clientMutationId: input.clientMutationId,
-        newTalkId: newTalk.id,
+        addedTalkId: newTalk.id,
         eventId: input.eventId,
         speakerIds: input.speakerIds
       }));
