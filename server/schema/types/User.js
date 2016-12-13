@@ -6,6 +6,6 @@ type User implements Node {
   speakers(query: String, ${CONNECTION_ARGS}): SpeakerConnection!
   talks(query: String, ${CONNECTION_ARGS}): TalkConnection!
   events(query: String, ${CONNECTION_ARGS}): EventConnection!
-  topics(query: String, ${CONNECTION_ARGS}): TopicConnection!
+  topics(${CONNECTION_ARGS}): TopicConnection!
 }
 `;

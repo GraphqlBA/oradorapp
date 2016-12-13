@@ -18,7 +18,8 @@ const resolvers = {
   Talk: {
     id: talk => toGlobalId('Talk', talk.id),
     speakers: talk => talk.speakers.map(db.getSpeakerById),
-    event: talk => db.getEventById(talk.event)
+    event: talk => db.getEventById(talk.event),
+    topics: talk => talk.topics.map(db.getTopicById)
   },
   Event: {
     id: event => toGlobalId('Event', event.id),
@@ -26,6 +27,9 @@ const resolvers = {
   },
   EventSeries: {
     id: series => toGlobalId('EventSeries', series.id)
+  },
+  Topic: {
+    id: topic => toGlobalId('Topic', topic.id)
   },
   User: {
     id: () => toGlobalId('User', 1),
@@ -37,6 +41,9 @@ const resolvers = {
     },
     events(root, args) {
       return connectionFromArray(db.getEvents(), args);
+    },
+    topics(root, args) {
+      return connectionFromArray(db.getTopics(), args);
     }
   },
   Query: {
@@ -56,6 +63,8 @@ const resolvers = {
           return Object.assign({ type: 'Event' }, db.getEventById(+id));
         case 'EventSeries':
           return Object.assign({ type: 'EventSeries' }, db.getEventSeriesById(+id));
+        case 'Topic':
+          return Object.assign({ type: 'Topic' }, db.getTopicById(+id));
         default:
           return null;
       }
@@ -86,7 +95,9 @@ const resolvers = {
       const newTalk = db.addTalk({
         title: input.title,
         description: input.description,
-        topics: input.topics,
+        topicIds: input.topicIds.map(topicId => (
+          +fromGlobalId(topicId).id
+        )),
         eventId: +fromGlobalId(input.eventId).id,
         speakerIds: input.speakerIds.map(speakerId => (
           +fromGlobalId(speakerId).id

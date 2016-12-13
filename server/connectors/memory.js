@@ -41,7 +41,8 @@ const talks = {
     description: 'Sed dolor qui odio fugit dolorem voluptatem. Recusandae laudantium quia quis illo enim voluptas porro. Dolores occaecati omnis hic dolores labore. Deserunt assumenda est aut repudiandae aut id.',
     favorited: false,
     event: 1,
-    speakers: [1]
+    speakers: [1],
+    topics: [1]
   },
   2: {
     id: 2,
@@ -49,7 +50,8 @@ const talks = {
     description: 'Doloremque molestiae vel labore. Dolore maiores vel et iste dolores quaerat cum tempore. Quae id quaerat excepturi sint illo rem cupiditate. Sit eum et dolor quasi ullam.',
     favorited: false,
     event: 2,
-    speakers: [1, 2]
+    speakers: [1, 2],
+    topics: [2]
   },
   3: {
     id: 3,
@@ -57,7 +59,8 @@ const talks = {
     description: 'Architecto recusandae commodi quidem corporis ut dolores. Voluptas est voluptates qui odio. Eum quo veniam nisi eveniet dolore aut. Soluta adipisci mollitia iste aspernatur id et quidem.',
     favorited: false,
     event: 3,
-    speakers: [3]
+    speakers: [3],
+    topics: [1, 2]
   }
 };
 
@@ -101,6 +104,17 @@ const eventSeries = {
   }
 };
 
+const topics = {
+  1: {
+    id: 1,
+    name: 'React'
+  },
+  2: {
+    id: 2,
+    name: 'GraphQL'
+  }
+};
+
 const getEventSeriesById = id => eventSeries[id];
 
 const getEventById = id => events[id];
@@ -108,6 +122,8 @@ const getEventById = id => events[id];
 const getTalkById = id => talks[id];
 
 const getSpeakerById = id => speakers[id];
+
+const getTopicById = id => topics[id];
 
 module.exports = {
   getSpeakers: (query) => {
@@ -135,8 +151,12 @@ module.exports = {
     Object.keys(events).map(getEventById)
   ),
 
-  getTalkById,
+  getTopics: () => (
+    Object.keys(topics).map(getTopicById)
+  ),
 
+  getTalkById,
+  getTopicById,
   getSpeakerById,
   getEventById,
   getEventSeriesById,
@@ -146,7 +166,7 @@ module.exports = {
       id,
       title: payload.title,
       description: payload.description,
-      topics: payload.topics,
+      topics: payload.topicIds,
       event: payload.eventId,
       speakers: payload.speakerIds
     };

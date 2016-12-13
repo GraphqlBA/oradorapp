@@ -21,7 +21,7 @@ class TalkAddMutation extends Relay.Mutation {
     return {
       title: this.props.title,
       description: this.props.description,
-      topics: this.props.topics,
+      topicIds: this.props.topicIds,
       speakerIds: this.props.speakerIds,
       eventId: this.props.eventId
     };
@@ -130,7 +130,7 @@ class NewTalkScreen extends React.Component {
       viewer: this.props.viewer,
       title: this.state.title,
       description: this.state.description,
-      topics: this.state.topicIds,
+      topicIds: this.state.topicIds,
       speakerIds: this.state.speakerIds,
       eventId: this.state.eventId
     }), {

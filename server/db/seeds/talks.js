@@ -16,7 +16,8 @@ exports.seed = (knex, Promise) => (
     resetSequence(knex, 'talks'),
     resetSequence(knex, 'speakers_talks'),
     knex('talks').del(),
-    knex('speakers_talks').del()
+    knex('speakers_talks').del(),
+    knex('talks_topics').del()
   ]).then(() => {
     const promises = [];
     [...Array(howMany)].forEach((_, talk_id) => {

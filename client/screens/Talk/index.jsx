@@ -72,9 +72,9 @@ const TalkScreen = ({ talk, relay }) => (
       {talk.description}
     </p>
     <div className={styles.topics}>
-      {(talk.topics || []).map((topic, index) => (
-        <span className={styles.topic} key={index}>
-          {topic}
+      {(talk.topics || []).map(topic => (
+        <span className={styles.topic} key={topic.id}>
+          {topic.name}
         </span>
       ))}
     </div>
@@ -116,7 +116,10 @@ export default Relay.createContainer(TalkScreen, {
       fragment on Talk {
         title
         description
-        topics
+        topics {
+          id
+          name
+        }
         favorited
         event {
           title
