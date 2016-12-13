@@ -10,6 +10,6 @@ module.exports = {
       withRelated
     });
   },
-  shouldHaveNextPage: ({ offset, rowCount, pageCount }) => ((rowCount - offset) > pageCount),
+  shouldHaveNextPage: ({ offset, rowCount, limit }) => ((rowCount - offset) >= limit),
   shouldHavePreviousPage: ({ offset, limit }) => (offset > limit)
 };
