@@ -10,8 +10,7 @@ const resolvers = {
     talks: (speaker, args) => connectionFromArray(speaker.talks, args)
   },
   Talk: {
-    id: talk => toGlobalId('Talk', talk.id),
-    event: talk => talk.event
+    id: talk => toGlobalId('Talk', talk.id)
   },
   Event: {
     id: event => toGlobalId('Event', event.id)
@@ -77,7 +76,8 @@ const resolvers = {
     event: root => db.getEventById(+fromGlobalId(root.eventId).id),
     speakers: root => root.speakerIds.map(speakerId => (
       db.getSpeakerById(+fromGlobalId(speakerId).id)
-    ))
+    )),
+    addedTalk: root => db.getTalkById(root.addedTalkId)
   },
   Mutation: {
     talkAdd(root, args) {

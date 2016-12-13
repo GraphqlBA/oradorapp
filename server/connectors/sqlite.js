@@ -48,12 +48,7 @@ const getEventSeries = args => getPaginatedModel(EventSerie, args).then(
 
 const getTalkById = id => Talk.query({ where: { id } }).fetch({
   withRelated: ['speakers', 'event.eventSeries', 'topics']
-}).then(modelToJSON).then(talk => (
-  Object.assign(
-    talk,
-    { topics: talk.topics.map(topic => topic.name) }
-  )
-));
+}).then(modelToJSON);
 
 const updateTalkById = (id, payload) => (
   Talk.forge({ id }).save(payload).then(() => getTalkById(id))
@@ -75,9 +70,9 @@ const talkAdd = ({ title, description, eventId, speakerIds, topicIds }) => (
   Talk.forge({ title, description, event_id: eventId }).save()
   .then(
     talk => talk.related('speakers').attach(speakerIds)
-    .then(() => talk.related('topics').attach(topicIds))
+      .then(() => talk.related('topics').attach(topicIds))
+      .then(() => modelToJSON(talk))
   )
-  .then(modelToJSON)
 );
 
 module.exports = {
