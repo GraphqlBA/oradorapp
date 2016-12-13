@@ -19,6 +19,9 @@ const resolvers = {
   EventSeries: {
     id: series => toGlobalId('EventSeries', series.id)
   },
+  Topic: {
+    id: topic => toGlobalId('Topic', topic.id)
+  },
   User: {
     id: () => toGlobalId('User', 1),
     speakers(root, args) {
@@ -29,6 +32,9 @@ const resolvers = {
     },
     events(root, args) {
       return db.getEvents(args);
+    },
+    topics(root, args) {
+      return db.getTopics(args);
     }
   },
   Query: {
@@ -55,6 +61,10 @@ const resolvers = {
         case 'EventSeries':
           return db.getEventSerieById(+id).then(eventSerie => (
             Object.assign({ type: 'EventSerie' }, eventSerie)
+          ));
+        case 'Topic':
+          return db.getTopicById(+id).then(topic => (
+            Object.assign({ type: 'Topic' }, topic)
           ));
         default:
           return null;

@@ -2,6 +2,7 @@ const Speaker = require('../db/models/Speaker');
 const Talk = require('../db/models/Talk');
 const Event = require('../db/models/Event');
 const EventSerie = require('../db/models/EventSerie');
+const Topic = require('../db/models/Topic');
 
 const { getPaginatedModel } = require('./util/pagination');
 const { connectionFromCollection, modelToJSON } = require('./util/relay');
@@ -32,6 +33,12 @@ module.exports = {
     );
   },
 
+  getTopics: (args) => {
+    return getPaginatedModel(Topic, args).then(
+      collection => connectionFromCollection(collection, args, 'Topic')
+    );
+  },
+
   getEvents: args => getPaginatedModel(Event, args).then(
     collection => connectionFromCollection(collection, args, 'Event')
   ),
@@ -57,5 +64,13 @@ module.exports = {
 
   getEventById: id => Event.query({ where: { id } }).fetch().then(modelToJSON),
   getEventSeriesById: id => EventSerie.query({ where: { id } }).fetch().then(modelToJSON),
-  addTalk: () => {}
+  getTopicById: id => Topic.query({ where: { id } }).fetch().then(modelToJSON),
+  talkAdd: ({ title, description, eventId, speakerIds }) => (
+    Talk.forge({ title, description, event_id: eventId }).save()
+    .then(
+      talk => talk.related('speakers').attach(speakerIds)
+      .then(() => talk.related('topics').attach([1, 2]))
+    )
+    .then(modelToJSON)
+  )
 };
