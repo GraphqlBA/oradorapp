@@ -68,16 +68,16 @@ const FormField = ({ label, children }) => (
       {children}
     </label>
   </div>
-)
+);
 
 
 class NewTalkScreen extends React.Component {
   state = {
     eventId: this.props.viewer.events.edges[0].node.id,
     speakerIds: [this.props.viewer.speakers.edges[0].node.id],
+    topicIds: [],
     title: '',
-    description: '',
-    topics: ''
+    description: ''
   };
 
   isFormDisabled = () => (
@@ -115,7 +115,9 @@ class NewTalkScreen extends React.Component {
 
   handleTopicsChange = (ev) => {
     this.setState({
-      topics: ev.target.value
+      topicIds: [...ev.target.options]
+        .filter(option => option.selected)
+        .map(option => option.value)
     });
   }
 
@@ -128,7 +130,7 @@ class NewTalkScreen extends React.Component {
       viewer: this.props.viewer,
       title: this.state.title,
       description: this.state.description,
-      topics: this.state.topics.split(',').map(t => t.trim()).filter(Boolean),
+      topics: this.state.topicIds,
       speakerIds: this.state.speakerIds,
       eventId: this.state.eventId
     }), {
@@ -193,13 +195,23 @@ class NewTalkScreen extends React.Component {
               onChange={this.handleDescriptionChange}
             />
           </FormField>
-          <FormField label="Agregá etiquetas para catalogar la charla (separadas por comas)">
-            <input
-              type="text"
+          <FormField label="Tópicos relacionados a la charla">
+            <select
               id="tags"
-              value={this.state.topics}
+              value={this.state.topicIds}
+              multiple
               onChange={this.handleTopicsChange}
-            />
+            >
+              {this.props.viewer.topics.edges.map((edge) => {
+                const topic = edge.node;
+
+                return (
+                  <option key={topic.id} value={topic.id}>
+                    {topic.name}
+                  </option>
+                );
+              })}
+            </select>
           </FormField>
           Listo? {
             <button
@@ -235,6 +247,14 @@ export default Relay.createContainer(NewTalkScreen, {
             node {
               id
               title
+            }
+          }
+        }
+        topics(first: 1000) {
+          edges {
+            node {
+              id
+              name
             }
           }
         }

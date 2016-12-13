@@ -19,6 +19,9 @@ const resolvers = {
   EventSeries: {
     id: series => toGlobalId('EventSeries', series.id)
   },
+  Topic: {
+    id: topic => toGlobalId('Topic', topic.id)
+  },
   User: {
     id: () => toGlobalId('User', 1),
     speakers(root, args) {
@@ -29,6 +32,9 @@ const resolvers = {
     },
     events(root, args) {
       return db.getEvents(args);
+    },
+    topics(root, args) {
+      return db.getTopics(args);
     }
   },
   Query: {
@@ -56,6 +62,10 @@ const resolvers = {
           return db.getEventSerieById(+id).then(eventSerie => (
             Object.assign({ type: 'EventSerie' }, eventSerie)
           ));
+        case 'Topic':
+          return db.getTopicById(+id).then(topic => (
+            Object.assign({ type: 'Topic' }, topic)
+          ));
         default:
           return null;
       }
@@ -72,22 +82,22 @@ const resolvers = {
   Mutation: {
     talkAdd(root, args) {
       const { input } = args;
-      const newTalk = db.addTalk({
+      return db.talkAdd({
         title: input.title,
         description: input.description,
-        topics: input.topics,
+        topicIds: input.topicIds.map(topicId => (
+          +fromGlobalId(topicId).id
+        )),
         eventId: +fromGlobalId(input.eventId).id,
         speakerIds: input.speakerIds.map(speakerId => (
           +fromGlobalId(speakerId).id
         ))
-      });
-
-      return {
+      }).then(newTalk => ({
         clientMutationId: input.clientMutationId,
         newTalkId: newTalk.id,
         eventId: input.eventId,
         speakerIds: input.speakerIds
-      };
+      }));
     }
   }
 };

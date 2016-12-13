@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
-const { resetSequence } = require('./util');
+const { resetSequence, howMany } = require('./util');
 
 function speakerFactory() {
   const username = casual.username.toLowerCase();
@@ -22,7 +22,7 @@ exports.seed = (knex, Promise) => (
     knex('speakers').del()
   ]).then(() => {
     const promises = [];
-    [...Array(100)].forEach(() => {
+    [...Array(howMany)].forEach(() => {
       promises.push(knex('speakers').insert(speakerFactory()));
     });
 

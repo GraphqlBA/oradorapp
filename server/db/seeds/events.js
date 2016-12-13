@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
-const { resetSequence } = require('./util');
+const { resetSequence, howMany } = require('./util');
 
 function eventFactory() {
   const date = casual.date();
@@ -29,10 +29,10 @@ exports.seed = (knex, Promise) => (
     knex('event_series').del()
   ]).then(() => {
     const promises = [];
-    [...Array(100)].forEach(() => {
+    [...Array(howMany)].forEach(() => {
       promises.push(knex('events').insert(eventFactory()));
     });
-    [...Array(100)].forEach(() => {
+    [...Array(howMany)].forEach(() => {
       promises.push(knex('event_series').insert(eventSeriesFactory()));
     });
 

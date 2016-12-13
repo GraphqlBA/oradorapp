@@ -4,6 +4,7 @@ const Event = require('./types/Event');
 const EventSeries = require('./types/EventSeries');
 const Speaker = require('./types/Speaker');
 const Talk = require('./types/Talk');
+const Topic = require('./types/Topic');
 const User = require('./types/User');
 const Query = require('./Query');
 const Mutation = require('./Mutation');
@@ -28,7 +29,7 @@ schema {
 
 module.exports = makeExecutableSchema({
   typeDefs: [
-    schema, Event, EventSeries, Speaker, Talk, User, Query, Mutation
+    schema, Event, EventSeries, Speaker, Talk, Topic, User, Query, Mutation
   ],
   resolvers
 });
